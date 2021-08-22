@@ -19,10 +19,10 @@ number_of_policies = len(response.json())                                       
 start_num = 0                                                                           #Starts the counting up from 0
 while start_num < number_of_policies:                                                   #Keep going until every item in the list is done
     if response.json()[start_num]['enabled'] == True:                                   #Convert Boolean result to represent if a policy is Enabled or Disabled
-        enabled = "Enabled"
+        policy_status = "Enabled"
     else:
-        enabled = "Disabled"
-    print('{:<50s}'.format(str(start_num) + ". " + response.json()[start_num]['name']) + enabled)  # Displays the policy created in PCE
+        policy_status = "Disabled"
+    print('{:<50s}'.format(str(start_num) + ". " + response.json()[start_num]['name']) + policy_status)  # Displays the policy created in PCE
     start_num += 1                                                                      #Adding 1 to the count up
 
 user_choice = input("Select number between 0-" + str(number_of_policies-1) + ": ")      #Specify the number range a user should choose
