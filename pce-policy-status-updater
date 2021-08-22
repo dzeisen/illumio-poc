@@ -1,0 +1,33 @@
+import requests
+import urllib3
+import re
+import string
+urllib3.disable_warnings()
+requests.packages.urllib3.disable_warnings()
+
+print("\nillumio Policy Status Changer - Created by Jason Wong\nNote: Used in a POC to demonstrate time based segmentation use case and integration with automation tools using scripts\n\n< List of Policies >")
+pce_url = "https://demo6.illum.io/api/v2"
+org = "/orgs/your_org_number/"
+username = "api_key_generated_by_pce"
+password = "password_generated_by_pce"
+
+response = requests.get(url=pce_url+org+"sec_policy/draft/rule_sets", auth=(username, password))
+
+number_of_policies = len(response.json())
+start_num = 0
+while start_num < number_of_policies:
+    print(str(start_num) + ". " + response.json()[start_num]['name'])
+    start_num += 1
+
+user_choice = input("Select number between 0-" + str(number_of_policies-1) + ": ")
+user_choice = int(user_choice)
+policy_number = response.json()[user_choice]["href"]
+policy_href_list = re.sub('['+string.punctuation+']', ' ', policy_number).split()
+if response.json()[user_choice]["enabled"] == True:
+    response = requests.put(url=pce_url + org + "sec_policy/draft/rule_sets/" + policy_href_list[-1], auth=(username, password), json={"enabled": False})
+    response = requests.post(url=pce_url + org + "sec_policy", auth=(username, password), json={"change_subset": {"rule_sets": [{"href": org + "sec_policy/draft/rule_sets/" + policy_href_list[-1]}]}, "update_description": "Modified over API"})
+    print("\nPolicy Disabled Successfully\nPlease refresh the PCE UI > Segmentation Rulesets")
+else:
+    response = requests.put(url=pce_url + org + "sec_policy/draft/rule_sets/" + policy_href_list[-1], auth=(username, password), json={"enabled": True})
+    response = requests.post(url=pce_url + org + "sec_policy", auth=(username, password), json={"change_subset": {"rule_sets": [{"href": org + "sec_policy/draft/rule_sets/" + policy_href_list[-1]}]}, "update_description": "Modified over API"})
+    print("\nPolicy Enabled & Provisioned Successfully\nPlease refresh the PCE UI > Segmentation Rulesets")
