@@ -33,7 +33,7 @@ if response.json()[user_choice]["enabled"] == True:                             
     response = requests.put(url=pce_url + org + "sec_policy/draft/rule_sets/" + policy_href_list[-1], verify=cert_check, auth=(username, password), json={"enabled": False})
     response = requests.post(url=pce_url + org + "sec_policy", verify=cert_check, auth=(username, password), json={"change_subset": {"rule_sets": [{"href": org + "sec_policy/draft/rule_sets/" + policy_href_list[-1]}]}, "update_description": "Modified over API"})
     print("\nPolicy Disabled Successfully\nPlease refresh the PCE UI > Segmentation Rulesets")
-else:                                                                                   #Else, the selected policy is disabled - then enable it
+else:                                                                                   #Else, the selected policy is disabled
     response = requests.put(url=pce_url + org + "sec_policy/draft/rule_sets/" + policy_href_list[-1], verify=cert_check, auth=(username, password), json={"enabled": True})
     response = requests.post(url=pce_url + org + "sec_policy", verify=cert_check, auth=(username, password), json={"change_subset": {"rule_sets": [{"href": org + "sec_policy/draft/rule_sets/" + policy_href_list[-1]}]}, "update_description": "Modified over API"})
     print("\nPolicy Enabled & Provisioned Successfully\nPlease refresh the PCE UI > Segmentation Rulesets")
