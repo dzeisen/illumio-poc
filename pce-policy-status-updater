@@ -3,7 +3,6 @@ import urllib3
 import re
 import string
 urllib3.disable_warnings()
-requests.packages.urllib3.disable_warnings()
 
 print("\nillumio Policy Status Changer")
 print("Note: Used in a POC to demonstrate time based segmentation use case + help to illustrate integration with automation tools using scripts\n")
