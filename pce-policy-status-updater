@@ -6,7 +6,7 @@ urllib3.disable_warnings()
 
 print("\nillumio Policy Status Changer")
 print("Note: Used in a POC to demonstrate time based segmentation use case + help to illustrate integration with automation tools using scripts\n")
-print("< List of Policies >\t\t\t\t\t\t\t< Policy State >")
+print('{:<50s}'.format("< List of Policies >") + ("< Policy State >"))
 pce_url = "https://demo6.illum.io/api/v2"                                               #The PCE URL
 org = "/orgs/org_id/"                                                                   #Ensure you have the correct org ID
 username = "api_username"                                                               #The API username
